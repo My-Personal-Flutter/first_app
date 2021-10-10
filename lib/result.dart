@@ -42,7 +42,36 @@ class Result extends StatelessWidget {
               backgroundColor: MaterialStateProperty.all(Colors.grey[100]),
               padding: MaterialStateProperty.all(EdgeInsets.all(10)),
             ),
-          )
+          ),
+          ElevatedButton(
+            onPressed: resetQuiz,
+            child: Text("Restart Quiz!"),
+            style: ElevatedButton.styleFrom(
+              primary: Colors.grey[100],
+              onPrimary: Colors.blue,
+              padding: EdgeInsets.all(10),
+            ),
+          ),
+          TextButton(
+            onPressed: resetQuiz,
+            child: Text("Restart Quiz!"),
+            style: TextButton.styleFrom(
+              primary: Colors.blue,
+              padding: EdgeInsets.all(10),
+            ),
+          ),
+          OutlinedButton(
+            onPressed: resetQuiz,
+            child: Text("Restart Quiz!"),
+            style: OutlinedButton.styleFrom(
+              primary: Colors.blue,
+              padding: EdgeInsets.all(10),
+              side: BorderSide(
+                color: Colors.blue,
+                width: 0.5,
+              ),
+            ),
+          ),
         ],
       ),
     );
