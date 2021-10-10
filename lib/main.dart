@@ -1,6 +1,6 @@
-import 'package:first_app/Answer.dart';
+import 'package:first_app/quiz.dart';
+import 'package:first_app/result.dart';
 import 'package:flutter/material.dart';
-import 'package:first_app/Question.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,31 +13,61 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
+  var _totalScore = 0;
 
-  void _answerQuestion() {
+  void _answerQuestion(int score) {
+    _totalScore += score;
     setState(() {
       // if (_questionIndex < questions.length) _questionIndex++;
       _questionIndex++;
     });
     print(_questionIndex);
+    print(_totalScore);
   }
 
-  static const questions = [
+  void _resetQuiz() {
+    setState(() {
+      _totalScore = 0;
+      _questionIndex = 0;
+    });
+  }
+
+  static const _questions = [
     {
       "questionText": "What\'s your favourite color?",
-      "answers": ['Black', 'Red', "Blue", "Green"]
+      "answers": [
+        {"text": 'Black', "score": 10},
+        {"text": 'Red', "score": 6},
+        {"text": 'Green', "score": 7},
+        {"text": 'Blue', "score": 9},
+      ]
     },
     {
       "questionText": 'What\'s your favourite animal?',
-      "answers": ['Rabbit', 'Bat', "Dragon", "Snake"]
+      "answers": [
+        {"text": 'Rabbit', "score": 10},
+        {"text": 'Cat', "score": 6},
+        {"text": 'Dog', "score": 7},
+        {"text": 'Snake', "score": 9},
+      ]
     },
     {
       "questionText": 'What\'s your favourite Planet?',
-      "answers": ['Mercury', 'Venus', "Earth", "Mars"]
+      "answers": [
+        {"text": 'Earth', "score": 10},
+        {"text": 'Mars', "score": 6},
+        {"text": 'Jupiter', "score": 7},
+        {"text": 'Pluto', "score": 9},
+      ]
     },
     {
       "questionText": 'What\'s your favourite Country?',
-      "answers": ['Pakistan', 'France', "America", "Saudi Arabia"]
+      "answers": [
+        {"text": 'Pakistan', "score": 10},
+        {"text": 'America', "score": 6},
+        {"text": 'France', "score": 7},
+        {"text": 'Dubai', "score": 9},
+      ]
     },
   ];
 
@@ -49,34 +79,15 @@ class _MyAppState extends State<MyApp> {
           title: Text("My First App"),
           centerTitle: false,
         ),
-        body: _questionIndex < questions.length
-            ? Column(
-                children: <Widget>[
-                  Question(questions[_questionIndex]["questionText"] as String),
-                  ...(questions[_questionIndex]["answers"] as List<String>)
-                      .map((answer) {
-                    return Answer(
-                      answerSelectHandler: _answerQuestion,
-                      answerText: answer,
-                    );
-                  }).toList()
-                    ..shuffle()
-                ],
+        body: _questionIndex < _questions.length
+            ? Quiz(
+                questions: _questions,
+                questionIndex: _questionIndex,
+                answerQuestion: _answerQuestion,
               )
-            : Center(
-                child: Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.all(10),
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    "You Did it Bro ..!",
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+            : Result(
+                resetQuiz: _resetQuiz,
+                resultScore: _totalScore,
               ),
       ),
     );
